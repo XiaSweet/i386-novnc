@@ -6,13 +6,16 @@
 # based on ubuntu 18.04 LTS
 FROM i386/ubuntu:latest
 
+# 安装中文变量
+RUN apt-get update \
+	&& apt-get install -y language-pack-zh-hans
 # 各种环境变量
-ENV LANG=en_US.UTF-8 \
-    LC_ALL=en_US.UTF-8 \
+ENV LANG=C.UTF-8 \
+    LC_ALL=C.UTF-8 \
     S6_BEHAVIOUR_IF_STAGE2_FAILS=2 \
     S6_CMD_ARG0=/sbin/entrypoint.sh \
-    VNC_GEOMETRY=800x600 \
-    VNC_PASSWD=MAX8char \
+    VNC_GEOMETRY=1000x600 \
+    VNC_PASSWD=66666666 \
     USER_PASSWD='' \
     DEBIAN_FRONTEND=noninteractive
 
@@ -25,15 +28,15 @@ RUN groupadd user && useradd -m -g user user && \
         ca-certificates wget locales \
         nginx sudo \
         xorg openbox python-numpy rxvt-unicode && \
-    wget -O - https://github.com/just-containers/s6-overlay/releases/download/v1.22.1.0/s6-overlay-amd64.tar.gz | tar -xzv && \
+    wget -O - https://github.com/just-containers/s6-overlay/releases/download/v1.22.1.0/s6-overlay-x86.tar.gz | tar -xzv && \
     # workaround for https://github.com/just-containers/s6-overlay/issues/158
     ln -s /init /init.entrypoint && \
     # tigervnc
-    wget -O /tmp/tigervnc.tar.gz https://bintray.com/tigervnc/stable/download_file?file_path=tigervnc-1.10.1.x86_64.tar.gz && \
+    wget -O /tmp/tigervnc.tar.gz https://bintray.com/tigervnc/stable/download_file?file_path=tigervnc-1.10.1.i386.tar.gz && \
     tar xzf /tmp/tigervnc.tar.gz -C /tmp && \
-    chown root:root -R /tmp/tigervnc-1.10.1.x86_64 && \
-    tar c -C /tmp/tigervnc-1.10.1.x86_64 usr | tar x -C / && \
-    locale-gen en_US.UTF-8 && \
+    chown root:root -R /tmp/tigervnc-1.10.1.i386 && \
+    tar c -C /tmp/tigervnc-1.10.1.i386 usr | tar x -C / && \
+    locale-gen zh_CN.UTF-8 && \
     # novnc
     mkdir -p /app/src && \
     git clone --depth=1 https://github.com/novnc/noVNC.git /app/src/novnc && \
