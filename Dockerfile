@@ -27,7 +27,7 @@ RUN groupadd user && useradd -m -g user user && \
         git \
         ca-certificates wget locales \
         nginx sudo \
-        xorg openbox python-numpy rxvt-unicode && \
+        xorg xfce4 ttf-wqy-microhei  python-numpy rxvt-unicode && \
     wget -O - https://github.com/just-containers/s6-overlay/releases/download/v1.22.1.0/s6-overlay-x86.tar.gz | tar -xzv && \
     # workaround for https://github.com/just-containers/s6-overlay/issues/158
     ln -s /init /init.entrypoint && \
